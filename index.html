@@ -13,10 +13,14 @@
         .nav-pills .nav-link.active { background-color: #1a237e; color: white; border-color: #1a237e; }
         .result-card { background: white; border-radius: 12px; border: none; box-shadow: 0 4px 20px rgba(0,0,0,0.05); margin-bottom: 25px; transition: transform 0.2s; }
         .result-card:hover { transform: translateY(-3px); }
-        .metric-box { text-align: center; padding: 20px; background: #f8f9fa; border-radius: 10px; border: 1px solid #e9ecef; }
-        .metric-value { font-size: 1.8rem; font-weight: bold; color: #1a237e; }
-        .metric-label { font-size: 0.9rem; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; }
         img.img-fluid { border-radius: 8px; border: 1px solid #eee; }
+        
+        /* Special style for the clickable graph */
+        .zoomable-graph { cursor: zoom-in; transition: opacity 0.3s; }
+        .zoomable-graph:hover { opacity: 0.8; }
+        
+        /* Style for the new Feature/Sentiment cards to make them same height */
+        .feature-card { height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
     </style>
 </head>
 <body>
@@ -39,18 +43,34 @@
                 <button class="nav-link active" id="pills-sol-tab" data-bs-toggle="pill" data-bs-target="#pills-sol" type="button">Solana (SOL)</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="pills-eth-tab" data-bs-toggle="pill" data-bs-target="#pills-eth" type="button">Ethereum (ETH)</button>
+                <button class="nav-link" id="pills-ltc-tab" data-bs-toggle="pill" data-bs-target="#pills-ltc" type="button">Litecoin (LTC)</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="pills-ltc-tab" data-bs-toggle="pill" data-bs-target="#pills-ltc" type="button">Litecoin (LTC)</button>
+                <button class="nav-link" id="pills-eth-tab" data-bs-toggle="pill" data-bs-target="#pills-eth" type="button">Ethereum (ETH)</button>
             </li>
         </ul>
 
         <div class="tab-content" id="pills-tabContent">
 
             <div class="tab-pane fade show active" id="pills-sol">
-                <div class="alert alert-primary text-center">Displaying Results for <strong>Solana (SOL)</strong></div>
+                <div class="alert alert-primary text-center mb-4">Displaying Results for <strong>Solana (SOL)</strong></div>
                 
+                <div class="row mb-3">
+                    <div class="col-md-6 mb-3">
+                        <div class="result-card p-4 feature-card">
+                            <h5 class="fw-bold text-center text-secondary mb-3">Top 5 Market Indicators</h5>
+                            <img src="SOL Top 5 Market Indicators.png" class="img-fluid" alt="Solana Top 5 Features">
+                            <p class="text-muted small text-center mt-2">Key technical indicators driving the model.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="result-card p-4 feature-card">
+                            <h5 class="fw-bold text-center text-secondary mb-3">Top 5 Sentiment Features</h5>
+                            <img src="SOL Top 5 Sentiment Features.png" class="img-fluid" alt="Solana Sentiment Distribution">
+                            <p class="text-muted small text-center mt-2">Sentiment polarity distribution from social data.</p>
+                        </div>
+                    </div>
+                </div>
                 <div class="result-card p-4">
                     <h5 class="fw-bold mb-3">Performance Comparison for SOL</h5>
                     <div class="table-responsive">
@@ -62,8 +82,8 @@
                                     <th colspan="2">MI + SENT (Lagged)</th>
                                 </tr>
                                 <tr>
-                                    <th>RMSE</th>
-                                    <th>MAE</th>
+                                    <th data-bs-toggle="tooltip" title="Root Mean Squared Error">RMSE ℹ️</th>
+                                    <th data-bs-toggle="tooltip" title="Mean Absolute Error">MAE ℹ️</th>
                                     <th>RMSE</th>
                                     <th>MAE</th>
                                 </tr>
@@ -100,27 +120,40 @@
                             </tbody>
                         </table>
                     </div>
-                    <p class="text-muted small mt-2">
-                        <em>*Green cells indicate the lowest error rates (best performance) in each category.</em>
-                    </p>
                 </div>
 
                 <div class="result-card p-4">
-                    <h5 class="fw-bold mb-3">Solana Price Prediction Graph (Market Indicators only)</h5>
+                    <h5 class="fw-bold mb-3">Solana Price Prediction Graph</h5>
                     <img src="sol_price_graph(new).png" class="img-fluid" alt="Solana Graph for Tech Only">
                     <p class="text-muted small mt-2">Figure 1: Comparison of predicted SOL prices using market indicators only.</p>
                 </div>
 
                 <div class="result-card p-4">
-                    <h5 class="fw-bold mb-3">Solana Price Prediction Graph (Market Indicators and Sentiment-based Features)</h5>
+                    <h5 class="fw-bold mb-3">Solana Price Prediction Graph (MI + Sentiment)</h5>
                     <img src="sol_sentiment_chart(new).png" class="img-fluid" alt="Solana Graph for Sentiment-enhanced Lagged Features">
                     <p class="text-muted small mt-2">Figure 2: Comparison of predicted SOL prices using sentiment.</p>
                 </div>
             </div>
 
             <div class="tab-pane fade" id="pills-ltc">
-                <div class="alert alert-primary text-center">Displaying Results for <strong>Litecoin (LTC)</strong></div>
-                
+                <div class="alert alert-warning text-center mb-4">Displaying Results for <strong>Litecoin (LTC)</strong></div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6 mb-3">
+                        <div class="result-card p-4 feature-card">
+                            <h5 class="fw-bold text-center text-secondary mb-3">Top 5 Market Indicators</h5>
+                            <img src="LTC Top 5 Market Indicators.png" class="img-fluid" alt="LTC Top 5 Features">
+                            <p class="text-muted small text-center mt-2">Key technical indicators driving the model.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="result-card p-4 feature-card">
+                            <h5 class="fw-bold text-center text-secondary mb-3">Top 5 Sentiment Features</h5>
+                            <img src="LTC Top 5 Sentiment Features.png" class="img-fluid" alt="LTC Sentiment Distribution">
+                            <p class="text-muted small text-center mt-2">Sentiment polarity distribution from social data.</p>
+                        </div>
+                    </div>
+                </div>
                 <div class="result-card p-4">
                     <h5 class="fw-bold mb-3">Performance Comparison for LTC</h5>
                     <div class="table-responsive">
@@ -170,27 +203,44 @@
                             </tbody>
                         </table>
                     </div>
-                    <p class="text-muted small mt-2">
-                        <em>*Green cells indicate the lowest error rates (best performance) in each category.</em>
-                    </p>
                 </div>
 
                 <div class="result-card p-4">
-                    <h5 class="fw-bold mb-3">Litecoin Price Prediction Graph (Market Indicators only)</h5>
+                    <h5 class="fw-bold mb-3">Litecoin Price Prediction Graph</h5>
                     <img src="ltc_price_graph(new).png" class="img-fluid" alt="Litecoin Graph for Tech Only">
                     <p class="text-muted small mt-2">Figure 1: Comparison of predicted LTC prices using market indicators only.</p>
                 </div>
 
                 <div class="result-card p-4">
-                    <h5 class="fw-bold mb-3">Litecoin Price Prediction Graph (Market Indicators and Sentiment-based Features)</h5>
-                    <img src="ltc_sentiment_chart(new).png" class="img-fluid" alt="Litecoin Graph for Sentiment-enhanced Lagged Features">
+                    <h5 class="fw-bold mb-3">Litecoin Price Prediction (MI + Sentiment)</h5>
+                    <img src="ltc_sentiment_chart(new)2.png" 
+                         alt="Litecoin Graph for Sentiment-enhanced Lagged Features"
+                         data-bs-toggle="modal" 
+                         data-bs-target="#ltcBigGraphModal">
+                    
                     <p class="text-muted small mt-2">Figure 2: Comparison of predicted LTC prices using sentiment.</p>
                 </div>
             </div>
 
             <div class="tab-pane fade" id="pills-eth">
-                <div class="alert alert-primary text-center">Displaying Results for <strong>Ethereum (ETH)</strong></div>
-                
+                <div class="alert alert-info text-center mb-4">Displaying Results for <strong>Ethereum (ETH)</strong></div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6 mb-3">
+                        <div class="result-card p-4 feature-card">
+                            <h5 class="fw-bold text-center text-secondary mb-3">Top 5 Market Indicators</h5>
+                            <img src="ETH Top 5 Market Indicators.png" class="img-fluid" alt="ETH Top 5 Features">
+                            <p class="text-muted small text-center mt-2">Key technical indicators driving the model.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="result-card p-4 feature-card">
+                            <h5 class="fw-bold text-center text-secondary mb-3">Top 5 Sentiment Features</h5>
+                            <img src="ETH Top 5 Sentiment Features.png" class="img-fluid" alt="ETH Sentiment Distribution">
+                            <p class="text-muted small text-center mt-2">Sentiment polarity distribution from social data.</p>
+                        </div>
+                    </div>
+                </div>
                 <div class="result-card p-4">
                     <h5 class="fw-bold mb-3">Performance Comparison for ETH</h5>
                     <div class="table-responsive">
@@ -240,26 +290,43 @@
                             </tbody>
                         </table>
                     </div>
-                    <p class="text-muted small mt-2">
-                        <em>*Green cells indicate the lowest error rates (best performance) in each category.</em>
-                    </p>
                 </div>
 
                 <div class="result-card p-4">
-                    <h5 class="fw-bold mb-3">Ethereum Price Prediction Graph (Market Indicators only)</h5>
+                    <h5 class="fw-bold mb-3">Ethereum Price Prediction Graph</h5>
                     <img src="eth_price_graph.png" class="img-fluid" alt="Ethereum Graph for Tech Only">
                     <p class="text-muted small mt-2">Figure 1: Comparison of predicted ETH prices using market indicators only.</p>
                 </div>
 
                 <div class="result-card p-4">
-                    <h5 class="fw-bold mb-3">Ethereum Price Prediction Graph (Market Indicators and Sentiment-based Features)</h5>
+                    <h5 class="fw-bold mb-3">Ethereum Price Prediction Graph (MI + Sentiment)</h5>
                     <img src="eth_sentiment_chart.png" class="img-fluid" alt="Ethereum Graph for Sentiment-enhanced Lagged Features">
                     <p class="text-muted small mt-2">Figure 2: Comparison of predicted ETH prices using sentiment.</p>
                 </div>
             </div>
-        </div>
+
+        </div> 
+        <footer class="bg-dark text-white text-center py-4 mt-5 rounded-top">
+            <div class="container">
+                <p class="mb-2">Developed for Final Year Project (2025)</p>
+                <div class="d-flex justify-content-center gap-3 opacity-75">
+                    <span class="badge bg-secondary">Python</span>
+                    <span class="badge bg-secondary">TensorFlow</span>
+                    <span class="badge bg-secondary">Scikit-Learn</span>
+                    <span class="badge bg-secondary">Bootstrap 5</span>
+                </div>
+            </div>
+        </footer>
+
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Enable Tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+          return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
 </body>
-
 </html>
